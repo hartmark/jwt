@@ -11,8 +11,8 @@
     <Authors>Alexander Batishchev</Authors>
     <PackageTags>jwt;json;asp.net;asp.net core;.net core;authorization</PackageTags>
     <PackageLicense>MIT</PackageLicense>
-    <Version>9.1.0</Version>
-    <FileVersion>9.1.0.0</FileVersion>
+    <Version>9.2.0-beta1</Version>
+    <FileVersion>9.2.0.0</FileVersion>
     <AssemblyVersion>9.0.0.0</AssemblyVersion>
     <RootNamespace>JWT.Extensions.AspNetCore</RootNamespace>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -31,8 +31,20 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
-    <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
   </ItemGroup>
+
+  <Choose>
+    <When Condition="$(DefineConstants.Contains(SYSTEM_TEXT_JSON))">
+      <ItemGroup>
+        <PackageReference Include="System.Text.Json" Version="6.0.2" />
+      </ItemGroup>
+    </When>
+    <When Condition="$(DefineConstants.Contains(NEWTONSOFT_JSON))">
+      <ItemGroup>
+        <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
+      </ItemGroup>
+    </When>
+  </Choose>
 
   <ItemGroup>
     <ProjectReference Include="..\JWT.Extensions.DependencyInjection\JWT.Extensions.DependencyInjection.csproj" />
