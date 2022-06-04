@@ -38,18 +38,10 @@
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
 
-  <Choose>
-    <When Condition="$(DefineConstants.Contains(SYSTEM_TEXT_JSON))">
-      <ItemGroup>
-        <PackageReference Include="System.Text.Json" Version="6.0.2" />
-      </ItemGroup>
-    </When>
-    <When Condition="$(DefineConstants.Contains(NEWTONSOFT_JSON))">
-      <ItemGroup>
-        <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-      </ItemGroup>
-    </When>
-  </Choose>
+  <ItemGroup>
+    <PackageReference Condition="$(DefineConstants.Contains(SYSTEM_TEXT_JSON))" Include="System.Text.Json" Version="6.0.2" />
+    <PackageReference Condition="$(DefineConstants.Contains(NEWTONSOFT_JSON))" Include="Newtonsoft.Json" Version="10.0.3" />
+  </ItemGroup>
 
   <ItemGroup Condition="'$(TargetFramework)' == 'netstandard1.3' OR '$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="System.ComponentModel.Primitives" Version="4.3.0" />
