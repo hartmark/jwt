@@ -1,6 +1,7 @@
 ﻿#if SYSTEM_TEXT_JSON
 using System;
 using System.Text.Json;
+using JWT.Serializers.Converters;
 
 namespace JWT.Serializers
 {
@@ -9,6 +10,15 @@ namespace JWT.Serializers
     /// </summary>
     public sealed class SystemTextSerializer : IJsonSerializer
     {
+        // TODO: Add the default settings and if user adds own settings apply this converter
+        private static JsonSerializerOptions JsonSerializerOptions => new()
+        {
+            Converters =
+            {
+                new DictionaryStringObjectJsonConverterCustomWrite()
+            }
+        };
+        
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException" />
         public string Serialize(object obj)
@@ -16,8 +26,9 @@ namespace JWT.Serializers
             if (obj is null)
                 throw new ArgumentNullException(nameof(obj));
 
-            return JsonSerializer.Serialize(obj);
+            return JsonSerializer.Serialize(obj, JsonSerializerOptions);
         }
+
 
         /// <inheritdoc />
         /// <exception cref="ArgumentNullException" />
@@ -29,7 +40,7 @@ namespace JWT.Serializers
             if (String.IsNullOrEmpty(json))
                 throw new ArgumentException(nameof(json));
 
-            return JsonSerializer.Deserialize(json, type);
+            return JsonSerializer.Deserialize(json, type, JsonSerializerOptions);
         }
     }
 }
