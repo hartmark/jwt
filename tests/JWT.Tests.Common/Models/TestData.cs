@@ -5,7 +5,6 @@ using JWT.Algorithms;
 
 #if NETSTANDARD2_1 || NET6_0
 using System.Security.Cryptography;
-using System.Text;
 #endif
 
 namespace JWT.Tests.Models
@@ -73,7 +72,7 @@ namespace JWT.Tests.Models
             var rsa = RSA.Create();
             rsa.FromXmlString(ServerRsaPrivateKey2);
 
-            var certPub = new X509Certificate2(Encoding.ASCII.GetBytes(TestData.ServerRsaPublicKey2));
+            var certPub = new X509Certificate2(Convert.FromBase64String(ServerRsaPublicKey2));
             var certPriv = new X509Certificate2(certPub.CopyWithPrivateKey(rsa).Export(X509ContentType.Pfx));
 
             return certPriv;
