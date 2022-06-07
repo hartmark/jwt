@@ -173,5 +173,5 @@ namespace JWT.Serializers.Converters
             }
         }
     }
-    #endif
 }
+#endif
