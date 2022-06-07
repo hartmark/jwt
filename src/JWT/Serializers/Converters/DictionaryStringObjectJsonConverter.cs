@@ -34,7 +34,7 @@ namespace JWT.Serializers.Converters
                 dic.Add(propertyName, ExtractValue(ref reader, options));
             }
 
-            return dictionary;
+            return dic;
         }
 
         public override void Write(Utf8JsonWriter writer, Dictionary<string, object> value, JsonSerializerOptions options)
