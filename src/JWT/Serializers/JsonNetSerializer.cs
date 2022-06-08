@@ -59,6 +59,12 @@ namespace JWT.Serializers
             using var jsonReader = new JsonTextReader(stringReader);
             return _serializer.Deserialize(jsonReader, type);
         }
+
+// TODO: Added this with missing implementation to just see that this get used by .net < 4.6.2
+        public void SetCamelCasing(bool state)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 #endif

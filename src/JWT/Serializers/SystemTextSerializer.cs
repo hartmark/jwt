@@ -10,7 +10,6 @@ namespace JWT.Serializers
     /// </summary>
     public sealed class SystemTextSerializer : IJsonSerializer
     {
-        // TODO: Add the default settings and if user adds own settings apply this converter
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
             Converters =
@@ -41,6 +40,11 @@ namespace JWT.Serializers
                 throw new ArgumentException(nameof(json));
 
             return JsonSerializer.Deserialize(json, type, _options);
+        }
+
+        public void SetCamelCasing(bool state)
+        {
+            _options.PropertyNamingPolicy = state ? JsonNamingPolicy.CamelCase : null;
         }
     }
 }

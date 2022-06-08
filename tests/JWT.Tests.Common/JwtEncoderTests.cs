@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FluentAssertions;
 using JWT.Algorithms;
@@ -89,6 +90,61 @@ namespace JWT.Tests
 
             actual.Should()
                   .Be(expected, "because the same data encoded with the same key must result in the same token");
+        }
+
+        [TestMethod]
+        public void Encode_Should_Be_Able_To_Serialize_Payload_As_CamelCase()
+        {
+            const string key = TestData.Secret;
+            var toEncode = TestData.Customer;
+            const string expected = TestData.TokenPayloadAsCamelCase;
+
+            var algorithm = new HMACSHA256Algorithm();
+            var urlEncoder = new JwtBase64UrlEncoder();
+            var serializer = CreateSerializer();
+            serializer.SetCamelCasing(true);
+            var encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+
+            var actual = encoder.Encode(toEncode, key);
+
+            Console.WriteLine("Expected:");
+            Console.WriteLine(Base64Decode(expected.Split('.')[1]));
+
+            Console.WriteLine("Actual:");
+            Console.WriteLine(Base64Decode(actual.Split('.')[1]));
+            
+            actual.Should()
+                .Be(expected, "because the same data encoded with the same key must result in the same token");
+        }
+        
+        [TestMethod]
+        public void Encode_Should_Be_Able_To_Serialize_Payload_As_PascalCase()
+        {
+            const string key = TestData.Secret;
+            var toEncode = TestData.Customer;
+            const string expected = TestData.Token;
+
+            var algorithm = new HMACSHA256Algorithm();
+            var urlEncoder = new JwtBase64UrlEncoder();
+            var serializer = CreateSerializer();
+            serializer.SetCamelCasing(false);
+            var encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
+
+            var actual = encoder.Encode(toEncode, key);
+
+            Console.WriteLine("Expected:");
+            Console.WriteLine(Base64Decode(expected.Split('.')[1]));
+
+            Console.WriteLine("Actual:");
+            Console.WriteLine(Base64Decode(actual.Split('.')[1]));
+            
+            actual.Should()
+                .Be(expected, "because the same data encoded with the same key must result in the same token");
+        }
+        
+        private static string Base64Decode(string base64EncodedData) {
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }
