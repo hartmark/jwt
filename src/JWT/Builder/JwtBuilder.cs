@@ -84,6 +84,12 @@ namespace JWT.Builder
             return this;
         }
 
+        public JwtBuilder WithCamelCasing()
+        {
+            _serializer.SetCamelCasing(true);
+            return this;
+        }
+
         /// <summary>
         /// Sets custom datetime provider.
         /// </summary>

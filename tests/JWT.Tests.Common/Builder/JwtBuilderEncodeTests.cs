@@ -228,5 +228,56 @@ namespace JWT.Tests.Builder
             public IJwtAlgorithm Create(JwtDecoderContext context) =>
                 new HMACSHA256Algorithm();
         }
+        
+        [TestMethod]
+        public void Encode_Should_Be_Able_To_Serialize_Payload_As_CamelCase()
+        {
+            var algorithm = new HMACSHA256Algorithm();
+            var secret = _fixture.Create<string>();
+            const string expected = TestData.TokenPayloadAsCamelCase;
+
+            var token = JwtBuilder.Create()
+                .WithCamelCasing()
+                .WithAlgorithm(algorithm)
+                .WithSecret(secret)
+                .Encode();
+
+            token.Should()
+                .NotBeNullOrEmpty("because the token should contains some data");
+            token.Split('.')
+                .Should()
+                .HaveCount(3, "because the token should consist of three parts");
+
+            Console.WriteLine(token);
+            
+            Console.WriteLine("Expected:");
+            Console.WriteLine(Base64Decode(expected.Split('.')[1]));
+
+            Console.WriteLine("Actual:");
+            Console.WriteLine(Base64Decode(token.Split('.')[1]));
+            
+            token.Should()
+                .Be(expected, "because the same data encoded with the same key must result in the same token");
+        }
+        
+        private static string Base64Decode(string base64EncodedData)
+        {
+            try
+            {
+                var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+                return Encoding.UTF8.GetString(base64EncodedBytes);
+            }
+            catch (FormatException)
+            {
+                // a base64 string may not contain more than two
+                if (base64EncodedData.EndsWith("=="))
+                {
+                    throw;
+                }
+                
+                // naively add padding is missing
+                return Base64Decode($"{base64EncodedData}=");
+            }
+        }
     }
 }

@@ -3,7 +3,7 @@
   <PropertyGroup>
     <!-- Unless I change this to something below net462 i get no exception about missing implementation in JsonNetSerializer.cs  -->
     <!-- Had to set to net461, because I get that some nugget don't support net40 -->
-    <TargetFramework>net40</TargetFramework>
+    <TargetFramework>net461</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>

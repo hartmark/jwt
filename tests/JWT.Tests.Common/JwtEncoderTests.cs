@@ -107,12 +107,6 @@ namespace JWT.Tests
 
             var actual = encoder.Encode(toEncode, key);
 
-            Console.WriteLine("Expected:");
-            Console.WriteLine(Base64Decode(expected.Split('.')[1]));
-
-            Console.WriteLine("Actual:");
-            Console.WriteLine(Base64Decode(actual.Split('.')[1]));
-            
             actual.Should()
                 .Be(expected, "because the same data encoded with the same key must result in the same token");
         }
@@ -132,19 +126,8 @@ namespace JWT.Tests
 
             var actual = encoder.Encode(toEncode, key);
 
-            Console.WriteLine("Expected:");
-            Console.WriteLine(Base64Decode(expected.Split('.')[1]));
-
-            Console.WriteLine("Actual:");
-            Console.WriteLine(Base64Decode(actual.Split('.')[1]));
-            
             actual.Should()
                 .Be(expected, "because the same data encoded with the same key must result in the same token");
-        }
-        
-        private static string Base64Decode(string base64EncodedData) {
-            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
-            return System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }
