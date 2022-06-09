@@ -400,5 +400,19 @@ namespace JWT.Tests.Builder
             action.Should()
                   .Throw<InvalidOperationException>("because token can't be decoded without valid serializer");
         }
+        
+        [TestMethod]
+        public void Decode_Should_Be_Able_To_Deserialize_Payload_As_CamelCase()
+        {
+            var token = JwtBuilder.Create()
+                .WithAlgorithm(TestData.HMACSHA256Algorithm)
+                .WithSecret(TestData.Secrets)
+                .MustVerifySignature()
+                .WithCamelCasing()
+                .Decode<Customer>(TestData.TokenPayloadAsCamelCase);
+
+            token.FirstName.Should().Be("Jesus");
+            token.Age.Should().Be(33);
+        }
     }
 }

@@ -259,25 +259,21 @@ namespace JWT.Tests.Builder
             token.Should()
                 .Be(expected, "because the same data encoded with the same key must result in the same token");
         }
-        
+
         private static string Base64Decode(string base64EncodedData)
         {
-            try
+            switch (base64EncodedData.Length % 4)
             {
-                var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
-                return Encoding.UTF8.GetString(base64EncodedBytes);
+                case 2:
+                    base64EncodedData += "==";
+                    break;
+                case 3:
+                    base64EncodedData += "=";
+                    break;
             }
-            catch (FormatException)
-            {
-                // a base64 string may not contain more than two
-                if (base64EncodedData.EndsWith("=="))
-                {
-                    throw;
-                }
-                
-                // naively add padding is missing
-                return Base64Decode($"{base64EncodedData}=");
-            }
+
+            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
+            return Encoding.UTF8.GetString(base64EncodedBytes);
         }
     }
 }
