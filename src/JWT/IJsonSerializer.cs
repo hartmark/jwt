@@ -21,8 +21,6 @@ namespace JWT
         /// <param name="json">The JSON string deserialize.</param>
         /// <returns>Strongly-typed object.</returns>
         object Deserialize(Type type, string json);
-
-        void SetCamelCasing(bool state);
     }
 
     /// <summary>

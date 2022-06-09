@@ -9,7 +9,7 @@ namespace JWT.Serializers
     /// <summary>
     /// JSON serializer using Newtonsoft.Json implementation.
     /// </summary>
-    public sealed class JsonNetSerializer : IJsonSerializer
+    public class JsonNetSerializer : IJsonSerializer
     {
         private readonly JsonSerializer _serializer;
 
@@ -58,12 +58,6 @@ namespace JWT.Serializers
             using var stringReader = new StringReader(json);
             using var jsonReader = new JsonTextReader(stringReader);
             return _serializer.Deserialize(jsonReader, type);
-        }
-
-// TODO: Added this with missing implementation to just see that this get used by .net < 4.6.2
-        public void SetCamelCasing(bool state)
-        {
-            throw new NotImplementedException();
         }
     }
 }

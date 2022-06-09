@@ -102,13 +102,12 @@ namespace JWT.Tests
             var algorithm = new HMACSHA256Algorithm();
             var urlEncoder = new JwtBase64UrlEncoder();
             var serializer = CreateSerializer();
-            serializer.SetCamelCasing(true);
             var encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
 
             var actual = encoder.Encode(toEncode, key);
 
             actual.Should()
-                .Be(expected, "because the same data encoded with the same key must result in the same token");
+                  .Be(expected, "because the same data encoded with the same key must result in the same token");
         }
         
         [TestMethod]
@@ -121,13 +120,12 @@ namespace JWT.Tests
             var algorithm = new HMACSHA256Algorithm();
             var urlEncoder = new JwtBase64UrlEncoder();
             var serializer = CreateSerializer();
-            serializer.SetCamelCasing(false);
             var encoder = new JwtEncoder(algorithm, serializer, urlEncoder);
 
             var actual = encoder.Encode(toEncode, key);
 
             actual.Should()
-                .Be(expected, "because the same data encoded with the same key must result in the same token");
+                  .Be(expected, "because the same data encoded with the same key must result in the same token");
         }
     }
 }

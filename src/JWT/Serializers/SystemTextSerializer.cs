@@ -41,11 +41,6 @@ namespace JWT.Serializers
 
             return JsonSerializer.Deserialize(json, type, _options);
         }
-
-        public void SetCamelCasing(bool state)
-        {
-            _options.PropertyNamingPolicy = state ? JsonNamingPolicy.CamelCase : null;
-        }
     }
 }
 #endif

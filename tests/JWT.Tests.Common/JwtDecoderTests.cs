@@ -547,17 +547,16 @@ namespace JWT.Tests
             var payload = TestData.Customer;
 
             var serializer = CreateSerializer();
-            serializer.SetCamelCasing(true);
             var dateTimeProvider = new UtcDateTimeProvider();
             var validator = new JwtValidator(serializer, dateTimeProvider);
             var urlEncoder = new JwtBase64UrlEncoder();
             var decoder = new JwtDecoder(serializer, validator, urlEncoder, TestData.HMACSHA256Algorithm);
 
             var actual = decoder.Decode(token, new[] { key }, verify: true);
-
             var expected = serializer.Serialize(payload);
+
             actual.Should()
-                .Be(expected, "because the provided object should be correctly serialized in the token");
+                  .Be(expected, "because the provided object should be correctly serialized in the token");
         }
     }
 }

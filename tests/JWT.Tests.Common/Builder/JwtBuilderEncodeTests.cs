@@ -237,27 +237,18 @@ namespace JWT.Tests.Builder
             const string expected = TestData.TokenPayloadAsCamelCase;
 
             var token = JwtBuilder.Create()
-                .WithCamelCasing()
-                .WithAlgorithm(algorithm)
-                .WithSecret(secret)
-                .Encode();
+                                  .WithAlgorithm(algorithm)
+                                  .WithSecret(secret)
+                                  .Encode();
 
             token.Should()
-                .NotBeNullOrEmpty("because the token should contains some data");
+                 .NotBeNullOrEmpty("because the token should contains some data");
             token.Split('.')
-                .Should()
-                .HaveCount(3, "because the token should consist of three parts");
+                 .Should()
+                 .HaveCount(3, "because the token should consist of three parts");
 
-            Console.WriteLine(token);
-            
-            Console.WriteLine("Expected:");
-            Console.WriteLine(Base64Decode(expected.Split('.')[1]));
-
-            Console.WriteLine("Actual:");
-            Console.WriteLine(Base64Decode(token.Split('.')[1]));
-            
             token.Should()
-                .Be(expected, "because the same data encoded with the same key must result in the same token");
+                 .Be(expected, "because the same data encoded with the same key must result in the same token");
         }
 
         private static string Base64Decode(string base64EncodedData)

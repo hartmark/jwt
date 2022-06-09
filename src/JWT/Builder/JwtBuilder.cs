@@ -4,7 +4,6 @@ using JWT.Algorithms;
 using JWT.Serializers;
 
 using static JWT.Internal.EncodingHelper;
-using static JWT.Serializers.JsonSerializerFactory;
 
 namespace JWT.Builder
 {
@@ -74,19 +73,10 @@ namespace JWT.Builder
         /// <summary>
         /// Sets JWT serializer.
         /// </summary>
-        /// <remarks>
-        /// If not set then default <see cref="JsonNetSerializer" /> will be used.
-        /// </remarks>
         /// <returns>Current builder instance</returns>
         public JwtBuilder WithSerializer(IJsonSerializer serializer)
         {
             _serializer = serializer;
-            return this;
-        }
-
-        public JwtBuilder WithCamelCasing()
-        {
-            _serializer.SetCamelCasing(true);
             return this;
         }
 
