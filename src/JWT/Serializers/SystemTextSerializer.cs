@@ -8,7 +8,7 @@ namespace JWT.Serializers
     /// <summary>
     /// JSON serializer using Newtonsoft.Json implementation.
     /// </summary>
-    public sealed class SystemTextSerializer : IJsonSerializer
+    public class SystemTextSerializer : IJsonSerializer
     {
         private static readonly JsonSerializerOptions _options = new JsonSerializerOptions
         {
