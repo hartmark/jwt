@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using JWT.Algorithms;
-using JWT.Serializers;
-
 using static JWT.Internal.EncodingHelper;
+using static JWT.Serializers.JsonSerializerFactory;
 
 namespace JWT.Builder
 {
@@ -291,17 +290,6 @@ namespace JWT.Builder
             EnsureCanDecode();
 
             return _decoder.DecodeToObject<T>(token, _secrets, _valParams.ValidateSignature);
-        }
-
-        private static IJsonSerializer CreateSerializer()
-        {
-#if SYSTEM_TEXT_JSON
-            return new SystemTextSerializer();
-#elif NEWTONSOFT_JSON
-            return new JsonNetSerializer();
-#else
-            throw new NotSupportedException();
-#endif
         }
 
         private void TryCreateEncoder()

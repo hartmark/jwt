@@ -228,43 +228,5 @@ namespace JWT.Tests.Builder
             public IJwtAlgorithm Create(JwtDecoderContext context) =>
                 new HMACSHA256Algorithm();
         }
-        
-        [TestMethod]
-        public void Encode_Should_Be_Able_To_Serialize_Payload_As_CamelCase()
-        {
-            var algorithm = new HMACSHA256Algorithm();
-            var secret = _fixture.Create<string>();
-            const string expected = TestData.TokenPayloadAsCamelCase;
-
-            var token = JwtBuilder.Create()
-                                  .WithAlgorithm(algorithm)
-                                  .WithSecret(secret)
-                                  .Encode();
-
-            token.Should()
-                 .NotBeNullOrEmpty("because the token should contains some data");
-            token.Split('.')
-                 .Should()
-                 .HaveCount(3, "because the token should consist of three parts");
-
-            token.Should()
-                 .Be(expected, "because the same data encoded with the same key must result in the same token");
-        }
-
-        private static string Base64Decode(string base64EncodedData)
-        {
-            switch (base64EncodedData.Length % 4)
-            {
-                case 2:
-                    base64EncodedData += "==";
-                    break;
-                case 3:
-                    base64EncodedData += "=";
-                    break;
-            }
-
-            var base64EncodedBytes = Convert.FromBase64String(base64EncodedData);
-            return Encoding.UTF8.GetString(base64EncodedBytes);
-        }
     }
 }
